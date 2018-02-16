@@ -2,13 +2,13 @@ clear all
 dbstop if error % optional instruction to stop at a breakpoint if there is an error - useful for debugging
 
 %% 1. ADD TOOLBOXES TO MATLAB PATH
-eeglab = 'C:\EEGLABtraining2018\eeglab14_1_1b'; % path to eeglab toolbox
-fieldtrip = 'C:\EEGLABtraining2018\fieldtrip-20180212'; % path to fieldtrip toolbox
-batchfun = 'C:\EEGLABtraining2018\EEGLABworkshops2018';
+eeglab_path = 'C:\EEGLABtraining2018\eeglab14_1_1b'; % path to eeglab toolbox
+fieldtrip_path = 'C:\EEGLABtraining2018\fieldtrip-20180212'; % path to fieldtrip toolbox
+batchfun_path = 'C:\EEGLABtraining2018\EEGLABworkshops2018';
 
-addpath(genpath(eeglab));
-addpath(fieldtrip); ft_defaults;
-addpath(genpath(batchfun));
+addpath(genpath(eeglab_path));
+addpath(fieldtrip_path); ft_defaults;
+addpath(genpath(batchfun_path));
 %% 2. FOLDER AND FILENAME DEFINITIONS
 
 % FILE NAMING
