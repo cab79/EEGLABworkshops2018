@@ -30,6 +30,10 @@ for f = 1:length(S.filelist)
         case 'mff'
             % requires toolbox: mffimport2.0 (Srivas Chennu)
             EEG = pop_readegimff(fullfile(S.rawpath,filename));
+        case 'bdf'
+            
+        case 'csv'
+            
     end
     EEG = eeg_checkset(EEG);
 

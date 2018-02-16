@@ -44,7 +44,7 @@
 
 % $Id: pop_loadbv.m,v 1.3 2009-07-01 01:08:54 arno Exp $
 
-function [EEG, com] = pop_loadbv(path, hdrfile, srange, chans)
+function [EEG, com] = pop_loadbv_CAB(path, hdrfile, srange, chans)
 
     com = '';
     EEG = [];

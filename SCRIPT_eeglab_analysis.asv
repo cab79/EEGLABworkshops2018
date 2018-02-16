@@ -23,12 +23,12 @@ S.rawpath = 'C:\EEGLABtraining2018\Data\Raw'; % unprocessed data in original for
 S.setpath = 'C:\EEGLABtraining2018\Data\Preprocessed'; % folder to save processed .set data
 S.freqpath = 'C:\EEGLABtraining2018\Data\Frequency'; % folder to save processed .set data
 S.erppath = 'C:\EEGLABtraining2018\Data\ERP'; % folder to save processed .set data
-S.fnameparts = {'study','subject','block','cond'}; % parts of the input filename separated by underscores, e.g.: {'study','subject','session','block','cond'};
+S.fnameparts = {'study','subject','block','event'}; % parts of the input filename separated by underscores, e.g.: {'study','subject','session','block','cond'};
 S.subjects = {'P1'}; % either a single subject, or leave blank to process all subjects in folder
 S.sessions = {};
 S.blocks = {'ECA'}; % blocks to load (each a separate file) - empty means all of them, or not defined
 S.conds = {'_1.','_1O.','_10.','_10O.'}; % conditions to load (each a separate file) - empty means all of them, or not defined
-S.datfile = 'C:\EEGLABtraining2018\EEGLABworkshops2018\Participant_data.xlsx'; % .xlsx file to group participants; contains columns named 'Subject', 'Group', and any covariates of interest
+S.datfile = 'C:\EEGLABtraining2018\Data\Participant_data.xlsx'; % .xlsx file to group participants; contains columns named 'Subject', 'Group', and any covariates of interest
 save(fullfile(S.setpath,'S'),'S'); % saves 'S' - will be overwritten each time the script is run, so is just a temporary variable
 
 %% 3. DATA IMPORT
@@ -42,7 +42,7 @@ S.loadext = 'vhdr'; % file extension of input data: supports 'vhdr' (Brainvision
 S.saveprefix = ''; % prefix to add to output file, if needed
 S.savesuffix = ''; % suffix to add to output file, if needed
 S.chan.excl = [32]; % exclude channels, or leave empty as []
-S.chan.addloc = fullfile(eeglab_path,'plugins\dipfit2.3\standard_BESA\standard-10-5-cap385.elp'); % add channel locations from this path; or leave as ''
+S.chan.addloc = fullfile(eeglab,'plugins\dipfit2.3\standard_BESA\standard-10-5-cap385.elp'); % add channel locations from this path; or leave as ''
 % RUN
 S=eeglab_import(S);
 save(fullfile(S.setpath,'S'),'S'); % saves 'S' - will be overwritten each time the script is run, so is just a temporary variable
