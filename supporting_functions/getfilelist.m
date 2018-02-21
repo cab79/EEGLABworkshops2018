@@ -12,6 +12,7 @@ end
 if isempty(S.conds)
     S.conds = {''};
 end
+S.subjects_in = S.subjects;
 
 % load participant info and identify the relevant columns
 [~,~,pdata] = xlsread(S.datfile);
@@ -58,14 +59,20 @@ S.groups = subjlists(grplist);
 % create file list
 S.filelist = {};
 i = 0;
+gs=0;
 for g = 1:length(S.groups)
     for s = 1:length(S.groups{g,1}) 
         subj = S.groups{g,1}{s,1};
+        gs=gs+1;
         
-        % if subjects are specified in settings, only analyse those,
+         % if subjects are specified in settings, only analyse those,
         % otherwise include all
-        if ~isempty(S.subjects) && ~any(strcmp(S.subjects,subj))
-            continue
+        if ~isempty(S.subjects) 
+            if ~any(strcmp(S.subjects,subj))
+                continue
+            end
+        else
+            S.subjects_in{gs} = subj;
         end
         
         for a = 1:length(S.sessions)
@@ -73,9 +80,19 @@ for g = 1:length(S.groups)
                 for c = 1:length(S.conds)
                     genname = ['*' subj '*' S.sessions{a} '*' S.blocks{b} '*' S.conds{c} '*' S.loadext];
                     genname = strrep(genname,'**','*');
+                    genname = strrep(genname,'***','*');
+                    genname = strrep(genname,'****','*');
+                    genname = strrep(genname,'*****','*');
+                    %genname = regexprep(genname,{'\.','set'},{'','.set'});
                     file = dir(fullfile(S.filepath,genname));
                     if length(file)~=1
                         error('File names are not uniquely specified')
+                        %try 
+                        %    file = file(1);
+                        %    fname = file.name;
+                        %catch
+                        %    error('no files with this name')
+                        %end
                     else
                         fname = file.name;
                     end
@@ -86,3 +103,4 @@ for g = 1:length(S.groups)
         end
     end
 end
+S.subjects = S.subjects_in;

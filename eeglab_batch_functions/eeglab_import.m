@@ -31,9 +31,9 @@ for f = 1:length(S.filelist)
             % requires toolbox: mffimport2.0 (Srivas Chennu)
             EEG = pop_readegimff(fullfile(S.rawpath,filename));
         case 'bdf'
-            
+            EEG = pop_biosig(fullfile(S.rawpath,filename),[],'BDF'); % NOT TESTED. May need to add in channel range instead of []
         case 'csv'
-            
+            % NEEDS CODE
     end
     EEG = eeg_checkset(EEG);
 
