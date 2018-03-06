@@ -4,12 +4,14 @@ function S=eeglab_preprocess_afterICA(S)
 % via EEGLAB or SASICA, but not yet removed from the data.
 
 % GET FILE LIST
-S.filepath = S.setpath;
+sname_ext = 'ICA';
+S.filepath = fullfile(S.setpath,sname_ext);
 S = getfilelist(S);
 
-for f = length(S.filelist)
+loadpath = fullfile(S.setpath,sname_ext);
+for f = 1:length(S.filelist)
     file = S.filelist{f};
-    EEG = pop_loadset('filename',file,'filepath',S.setpath);
+    EEG = pop_loadset('filename',file,'filepath',loadpath);
     
     % remove selected ICA components (MUST HAVE ALREADY SELECTED THESE MANUALLY)
     if S.ICAremove
@@ -56,26 +58,34 @@ for f = length(S.filelist)
    
     % save .set
     [pth nme ext] = fileparts(file); 
-    sname_ext = 'cleaned.set';
-    sname = [nme '_' sname_ext];
-    EEG = pop_saveset(EEG,'filename',sname,'filepath',S.setpath); 
+    sname_ext = 'cleaned';
+    sname = [nme '_' sname_ext '.' S.loadext];
+    if ~exist(fullfile(S.setpath,sname_ext),'dir')
+        mkdir(fullfile(S.setpath,sname_ext));
+    end
+    EEG = pop_saveset(EEG,'filename',sname,'filepath',fullfile(S.setpath,sname_ext)); 
+    
 end
 
 % separate files that were originally combined before ICA
 if S.separatefiles
     % GET FILE LIST
-    S.filepath = S.setpath;
-    S.loadext=sname_ext;
-    S = getfilelist(S);
+    S.filepath = fullfile(S.setpath,sname_ext);
+    S = getfilelist(S,sname_ext);
 
-    for f = length(S.filelist)
+    loadpath = fullfile(S.setpath,sname_ext);
+    for f = 1:length(S.filelist)
         file = S.filelist{f};
-        INEEG = pop_loadset('filename',file,'filepath',S.setpath);
+        INEEG = pop_loadset('filename',file,'filepath',loadpath);
         [sfiles,ia,ib] = unique({INEEG.epoch.file});
         for s = 1:length(sfiles)
             ind = find(ib==s);
             EEGsep1 = pop_select(INEEG,'trial',ind);
             
+            sname_ext = 'separated';
+            if ~exist(fullfile(S.setpath,sname_ext),'dir')
+                mkdir(fullfile(S.setpath,sname_ext));
+            end
             % SEPARATE INTO FILES ACCORDING TO MARKER TYPE AND SAVE
             if ~isempty(S.separate)
                 nfiles = length(S.separate);
@@ -87,14 +97,14 @@ if S.separatefiles
                     EEG = pop_select(INEEGsep1,'trial',markerindex);
 
                     % save .set
-                    sname = [sfiles{s} '_' S.separate_suffix{n} '_' sname_ext];
-                    pop_saveset(EEG,'filename',sname,'filepath',S.setpath); 
+                    sname = [sfiles{s} '_' S.separate_suffix{n} '.' S.loadext];
+                    pop_saveset(EEG,'filename',sname,'filepath',fullfile(S.setpath,sname_ext)); 
                 end
             else
                 % save as one file
-                sname = [sfiles{s} '_cleaned.set'];
+                sname = [sfiles{s} '_cleaned.' S.loadext];
                 EEG=EEGsep1;
-                pop_saveset(EEG,'filename',sname,'filepath',S.setpath);
+                pop_saveset(EEG,'filename',sname,'filepath',fullfile(S.setpath,sname_ext));
             end 
         end
          

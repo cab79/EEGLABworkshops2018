@@ -157,7 +157,7 @@ if S.combinefiles
             if ~isempty(S.sessions{a})
                 subfiles = S.filelist(find(not(cellfun('isempty', strfind(S.filelist,S.subjects{s}))) & not(cellfun('isempty', strfind(S.filelist,S.sessions{a})))));
             else
-                subfiles = S.filelist(find(not(cellfun('isempty', strfind(S.filelist,S.subjects{s})))));
+                subfiles = S.filelist(find(not(cellfun('isempty', strfind(S.filelist,S.subjects{s}))) & not(cellfun('isempty', strfind(S.filelist,S.sessions{a})))));
             end
             % CYCLE THROUGH EACH FILE FOR THIS SUBJECT
             for f = 1:length(subfiles)

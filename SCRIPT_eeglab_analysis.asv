@@ -25,11 +25,11 @@ S.rawpath = 'C:\EEGLABtraining2018\Data\Raw'; % unprocessed data in original for
 S.setpath = 'C:\EEGLABtraining2018\Data\Preprocessed'; % folder to save processed .set data
 S.freqpath = 'C:\EEGLABtraining2018\Data\Frequency'; % folder to save processed .set data
 S.erppath = 'C:\EEGLABtraining2018\Data\ERP'; % folder to save processed .set data
-S.fnameparts = {'study','subject','block','cond'}; % parts of the input filename separated by underscores, e.g.: {'study','subject','session','block','cond'};
-S.subjects = {'P1'}; % either a single subject, or leave blank to process all subjects in folder
-S.sessions = {};
-S.blocks = {'ECA'}; % blocks to load (each a separate file) - empty means all of them, or not defined
-S.conds = {'_1.','_1O.','_10.','_10O.'}; % conditions to load (each a separate file) - empty means all of them, or not defined
+S.fnameparts = {'study','subject','session'}; % parts of the input filename separated by underscores, e.g.: {'study','subject','session','block','cond'};
+S.subjects = {'P1_ECA'}; % either a single subject, or leave blank to process all subjects in folder
+S.sessions = {'_1.','_1O.','_10.','_10O.'};
+S.blocks = {}; % blocks to load (each a separate file) - empty means all of them, or not defined
+S.conds = {}; % conditions to load (each a separate file) - empty means all of them, or not defined
 S.datfile = 'C:\EEGLABtraining2018\EEGLABworkshops2018\Participant_data.xlsx'; % .xlsx file to group participants; contains columns named 'Subject', 'Group', and any covariates of interest
 save(fullfile(S.setpath,'S'),'S'); % saves 'S' - will be overwritten each time the script is run, so is just a temporary variable
 
@@ -51,20 +51,20 @@ save(fullfile(S.setpath,'S'),'S'); % saves 'S' - will be overwritten each time t
 
 %% 2. PREPROCESSING
 % SET PREPROCESSING OPTIONS
-load(fullfile(S.setpath,'S'))
 S.setpath = 'C:\EEGLABtraining2018\Data\Preprocessed'; % folder to save processed .set data
+load(fullfile(S.setpath,'S'))
 S.loadext = 'set';
-S.subjects = {'P1'}; % either a single subject, or leave blank to process all subjects in folder
-S.sessions = {};
-S.blocks = {'ECA'}; % blocks to load (each a separate file) - empty means all of them, or not defined
-S.conds = {'_1.','_1O.','_10.','_10O.'}; % conditions to load (each a separate file) - empty means all of them, or not defined
+S.subjects = {'P1_ECA'}; % either a single subject, or leave blank to process all subjects in folder
+S.sessions = {'_1.','_1O.','_10.','_10O.'};
+S.blocks = {}; % blocks to load (each a separate file) - empty means all of them, or not defined
+S.conds = {}; % conditions to load (each a separate file) - empty means all of them, or not defined
 S.cont.timewin = {[],[],[],[]}; % timewindow (s) of data to analyse; one per S.conds. Blank = analyse all.
 S.downsample = 125;
 S.chan.addloc = 'C:\EEGLABtraining2018\eeglab14_1_1b\plugins\dipfit2.3\standard_BESA\standard-10-5-cap385.elp'; % add channel locations from this path; or leave as ''
 S.chan.interp = [];
 S.chan.reref = 1;
-S.filter.notch = {[45 55]};
-S.filter.incl = [0.5 45];%[0.1 100]; % FILTER - INCLUSIVE
+S.filter.notch = {[45 55],[95 105]};
+S.filter.incl = [1 45];%[0.1 100]; % FILTER - INCLUSIVE
 S.epoch.markers = {'S  1' 'S  2' 'S  3' 'S  4' 'S  5' 'S  6' 'S  7' 'S  8' 'S  9'};
 S.epoch.addmarker = 1; % set to 1 to add markers if the above are not present: will use the first marker value
 S.epoch.timewin = [-0.2 0.3]; % peri-marker time window

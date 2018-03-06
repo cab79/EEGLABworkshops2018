@@ -1,4 +1,10 @@
-function S = getfilelist(S)
+function S = getfilelist(S,varargin)
+
+if nargin>1
+    sname_ext = varargin{1};
+else
+    sname_ext = '';
+end
 
 cd(S.filepath);
 
@@ -78,11 +84,11 @@ for g = 1:length(S.groups)
         for a = 1:length(S.sessions)
             for b = 1:length(S.blocks)
                 for c = 1:length(S.conds)
-                    genname = ['*' subj '*' S.sessions{a} '*' S.blocks{b} '*' S.conds{c} '*' S.loadext];
-                    genname = strrep(genname,'**','*');
-                    genname = strrep(genname,'***','*');
-                    genname = strrep(genname,'****','*');
+                    genname = ['*' subj '*' S.sessions{a} '*' S.blocks{b} '*' S.conds{c} '*' sname_ext '*' S.loadext];
                     genname = strrep(genname,'*****','*');
+                    genname = strrep(genname,'****','*');
+                    genname = strrep(genname,'***','*');
+                    genname = strrep(genname,'**','*');
                     %genname = regexprep(genname,{'\.','set'},{'','.set'});
                     file = dir(fullfile(S.filepath,genname));
                     if length(file)~=1

@@ -76,7 +76,7 @@ for f = 1:length(S.filelist)
                 tldata{mt} = ft_timelockanalysis(cfg,FTEEG);
 
                 % apply CSD
-                if S.CSD.apply; 
+                if S.CSD.apply
                     [ntrial,nchan,nsamp] = size(tldata{mt}.trial);
                     trials = reshape(permute(tldata{mt}.trial,[2 3 1]),nchan,nsamp*ntrial);
                     trials=CSD(trials,G,H); 
