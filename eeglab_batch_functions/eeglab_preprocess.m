@@ -88,21 +88,22 @@ for f = 1:length(S.filelist)
     %create epochs if markers exist
     try
         EEG = pop_epoch( EEG, S.epoch.markers, S.epoch.timewin);
-    catch
-        % if markers don't exist, add markers and epoch
-        if S.epoch.addmarker && isempty(EEG.epoch)
-            Sr = EEG.srate; % sampling rate of data
-            Ndp = Sr*(S.epoch.timewin(2)-S.epoch.timewin(1));% number of data points per epoch
-            Tdp = size(EEG.data,2);% total number of data points in file
-            Mep = floor(Tdp/Ndp);% max possible number of epochs
-            for i = 1:Mep
-                EEG.event(1,i).type = S.epoch.markers{1};
-                EEG.event(1,i).latency = Sr*S.epoch.timewin(1)+(i-1)*Ndp+1;
-                EEG.event(1,i).urevent = S.epoch.markers{1};
-            end
-            EEG = pop_epoch( EEG, S.epoch.markers(1), S.epoch.timewin);
-        end
     end
+    
+    % if markers don't exist, add markers and epoch
+    if S.epoch.addmarker && isempty(EEG.epoch)
+        Sr = EEG.srate; % sampling rate of data
+        Ndp = Sr*(S.epoch.timewin(2)-S.epoch.timewin(1));% number of data points per epoch
+        Tdp = size(EEG.data,2);% total number of data points in file
+        Mep = floor(Tdp/Ndp);% max possible number of epochs
+        for i = 1:Mep
+            EEG.event(1,i).type = S.epoch.markers{1};
+            EEG.event(1,i).latency = Sr*S.epoch.timewin(1)+(i-1)*Ndp+1;
+            EEG.event(1,i).urevent = S.epoch.markers{1};
+        end
+        EEG = pop_epoch( EEG, S.epoch.markers(1), S.epoch.timewin);
+    end
+
 
     % LINEAR DETREND
     if S.epoch.detrend
