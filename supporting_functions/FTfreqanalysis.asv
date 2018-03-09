@@ -8,7 +8,6 @@ cfg = [];
 if strcmp(select,'Freq')
     cfg.output     = 'pow';
     cfg.method     = 'mtmfft';
-    
 elseif strcmp(select,'TF')
     cfg.output     = 'pow';
     cfg.method     = 'mtmconvol';
@@ -30,13 +29,13 @@ else
     cfg.foi     = freqrange;
 end
 
-if any(freqrange<30)
+if freqrange
     cfg.taper       = 'Hanning';
 else
     cfg.taper       = 'dpss';
-    cfg.tapsmofrq    = 5;
 end
 cfg.toi          = intimes;
+cfg.tapsmofrq    = 2;
 
 cfg.keeptrials = 'yes';
 %cfg.precision = 'single';
