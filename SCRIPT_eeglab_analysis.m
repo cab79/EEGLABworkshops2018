@@ -80,8 +80,8 @@ S=eeglab_preprocess(S)
 save(fullfile(S.setpath,'S'),'S'); % saves 'S' - will be overwritten each time the script is run, so is just a temporary variable
 
 %% 3. PREPROCESSING AFTER ICA
-% Only run this part if you have already manually selected ICA components for removal
-% path to ICA processed data
+% Only run this part if you have already manually selected ICA components
+% for removal and saved that file (with the same name, i.e. ..._ICA.set)
 load(fullfile(S.setpath,'S'))
 S.loadext = 'set';
 S.ICAremove = 1; % remove ICA components (0 if already removed from data, 1 if selected but not removed)
@@ -109,7 +109,7 @@ S.blocks = {'ECA'}; % blocks to load (each a separate file) - empty means all of
 S.conds = {'_1_','_1O_','_10_','_10O_'}; % conditions to load (each a separate file) - empty means all of them, or not defined
 % general settings
 S.basewin = [-0.2 0]; % baseline window
-S.rmbase = 1; % remove baseline prior to frequency/ERP
+S.rmbase = 0; % remove baseline prior to frequency/ERP
 S.markers = {'S  1','S  2','S  3','S  4','S  5','S  6','S  7','S  8', 'S  9'}; % marker types to analyse
 S.combinemarkers = 0; %include all events in a single condition.
 % analysis type

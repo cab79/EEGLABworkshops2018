@@ -31,7 +31,7 @@ else
 end
 
 if any(freqrange<30)
-    cfg.taper       = 'Hanning';
+    cfg.taper       = 'hanning';
 else
     cfg.taper       = 'dpss';
     cfg.tapsmofrq    = 5;

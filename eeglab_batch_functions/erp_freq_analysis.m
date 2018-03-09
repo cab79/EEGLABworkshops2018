@@ -175,9 +175,9 @@ for f = 1:length(S.filelist)
             if strcmp(S.analysistype,'TF')
                 % remove baseline
                 cfg.baseline     = S.basewin;
-                cfg.baselinetype = 'relative'; %'absolute', 'relative', 'relchange', 'normchange' or 'db' (default = 'absolute')
+                cfg.baselinetype = S.baselinetype; %'absolute', 'relative', 'relchange', 'normchange' or 'db' (default = 'absolute')
                 cfg.parameter    = 'powspctrm';
-                fdata = ft_freqbaseline(cfg, fdata)
+                fdata = ft_freqbaseline(cfg, fdata);
             end
             
             % separate marker types
